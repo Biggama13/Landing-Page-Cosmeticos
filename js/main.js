@@ -167,3 +167,15 @@
   build();
   if (!reduceMotion) raf = requestAnimationFrame(loop);
 })();
+
+/* ---------- Rastreamento de cliques nos canais (GA4) ---------- */
+  document.querySelectorAll('a[target="_blank"], a[href^="tel:"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (typeof gtag === 'function') {
+        gtag('event', 'clique_canal', {
+          canal_destino: link.href,
+          texto_botao: link.innerText.trim() || link.getAttribute('aria-label') || 'Link Externo'
+        });
+      }
+    });
+  });
